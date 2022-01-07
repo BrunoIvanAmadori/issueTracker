@@ -1,4 +1,4 @@
-import { getContrastYIQ } from "../utils/getContrastYIQ";
+import { getContrast } from "../utils/getContrast";
 
 export const Issue = (data) => {
   const view = `
@@ -23,7 +23,7 @@ export const Issue = (data) => {
                 (label) =>
                   `<span class="issue__label"
                     style="background-color:#${label.color};
-                    color:${getContrastYIQ("#" + label.color)}">${label.name}
+                    color:${getContrast("#" + label.color)}">${label.name}
                 </span>`
               )
               .join(" ")}

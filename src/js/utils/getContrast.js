@@ -1,4 +1,9 @@
-export function getContrastYIQ(hexcolor) {
+/**
+ * A function used to get the best contrast for fonts on different background colors
+ * @param {String} hexcolor
+ * @returns a color name to use on CSS
+ */
+export function getContrast(hexcolor) {
   hexcolor = hexcolor.replace("#", "");
   var r = parseInt(hexcolor.substr(0, 2), 16);
   var g = parseInt(hexcolor.substr(2, 2), 16);

@@ -1,3 +1,7 @@
+/**
+ * Default weight table
+ */
+
 export const weightTable = [
   {
     name: "Critical Priority",

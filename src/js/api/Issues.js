@@ -1,7 +1,12 @@
-import { getScore } from "../utils/getScore";
-import { weightTable } from "../utils/weightTable";
-import { getDateDiffInDays } from "../utils/getDateDiffInDays";
+import { getScore } from "./utils/getScore";
+import { getWeightTable } from "./utils/getWeightTable";
+import { getDateDiffInDays } from "./utils/getDateDiffInDays";
+import { countBusinessDays } from "./utils/countBusinessDays";
+import { sortByScore } from "./utils/sortByScore";
 
+/**
+ * Model for the Issue object
+ */
 export class Issue {
   constructor(params) {
     this.title = params.title;
@@ -13,6 +18,10 @@ export class Issue {
   }
 }
 
+/**
+ * Main class for fetching the Issue data from Github and delivering it to the app
+ */
+
 export class IssuesController {
   constructor(octokit, issueSerializer, config) {
     this.octokit = octokit;
@@ -21,6 +30,7 @@ export class IssuesController {
     this.repo = config.repo;
     this.project = config.project;
   }
+
   async getAllIssues() {
     try {
       console.log("fetching posta");
@@ -36,7 +46,7 @@ export class IssuesController {
         return this.issueSerializer.deSerialize(issue);
       });
 
-      const sortedData = this.issueSerializer.sortByScore(deserializedData);
+      const sortedData = sortByScore(deserializedData);
 
       return sortedData.map((data) => new Issue(data));
     } catch (e) {
@@ -45,40 +55,27 @@ export class IssuesController {
   }
 }
 
+/**
+ * Class that reformats the data to consume it properly
+ */
+
 export class IssuesSerializer {
-  sortByScore(data) {
-    let temp = [];
-
-    for (let i = 0; i < data.length; i++) {
-      for (let j = 0; j + 1 < data.length; j++) {
-        if (data[i].score > data[j].score) {
-          temp = data[i];
-          data[i] = data[j];
-          data[j] = temp;
-        }
-      }
-    }
-    return data;
-  }
-
   deSerialize(data) {
-    const relativeDateCreated = getDateDiffInDays(
-      new Date(data.created_at),
-      new Date() // current date
-    );
+    const today = new Date();
+    const creationDate = new Date(data.created_at);
+
+    const relativeDateCreated = getDateDiffInDays(creationDate, today);
+
+    const totalBusinessDays = countBusinessDays(creationDate, today);
 
     const labels = [...data.labels].map((label) => {
       return {
         name: label.name,
         color: label.color,
-        description: label.description,
-        url: label.url,
       };
     });
 
-    
-
-    const score = getScore(getWeightTable(), labels, new Date(data.created_at));
+    const score = getScore(getWeightTable(), labels, totalBusinessDays);
 
     return {
       title: data.title,

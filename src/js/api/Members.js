@@ -1,9 +1,17 @@
+/**
+ * Model for the Member object
+ */
+
 class Member {
   constructor(params) {
     this.name = params.name;
     this.avatarUrl = params.avatarUrl;
   }
 }
+
+/**
+ * Main class for fetching the Members data from Github and delivering it to the app
+ */
 
 export class MembersController {
   constructor(octokit, memberSerializer, config) {
@@ -12,6 +20,7 @@ export class MembersController {
     this.token = config.token;
     this.org = config.org;
   }
+
   async getAllMembers() {
     try {
       const response = await this.octokit.request("GET /orgs/{org}/members", {
@@ -31,6 +40,10 @@ export class MembersController {
     }
   }
 }
+
+/**
+ * Main class for fetching the Member data from Github and delivering it to the app
+ */
 
 export class MembersSerializer {
   deSerialize(data) {

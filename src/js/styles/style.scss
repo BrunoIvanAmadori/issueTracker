@@ -192,3 +192,11 @@ body {
   border: 1px solid #d0d7de;
   border-radius: 6px;
 }
+
+#successCustomize {
+  z-index: 9999;
+  position: absolute;
+  bottom: 30px;
+  width: 300px;
+  left: calc(50vw - 150px);
+}

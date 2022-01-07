@@ -1,6 +1,12 @@
-import { getBusinessDays } from "./getBusinessDays";
+/**
+ * Function that does the calculation to get the priority score for the issue
+ * @param {[Object]} weightTable
+ * @param {[Object]} labels
+ * @param {number} totalBusinessDays
+ * @returns {number} Priority score
+ */
 
-export function getScore(weightTable, labels, issueCreationDate) {
+export function getScore(weightTable, labels, totalBusinessDays) {
   let weightScore;
 
   // look if there are matches between the labels and the weight table, and then assign the value
@@ -17,7 +23,5 @@ export function getScore(weightTable, labels, issueCreationDate) {
     weightScore = 0;
   }
 
-  let today = new Date();
-  let totalBusinessDays = getBusinessDays(issueCreationDate, today);
   return weightScore * totalBusinessDays;
 }
