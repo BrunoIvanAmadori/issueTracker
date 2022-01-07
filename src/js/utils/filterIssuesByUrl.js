@@ -7,29 +7,14 @@
 
 import { Home } from "../pages/Home";
 
-export function filterIssuesByUrl(issues, urlParams, views) {
-  const content = null || document.getElementById("content");
-
+export function filterIssuesByUrl(urlParams, state) {
   let issuesVisible = 0;
 
   if (urlParams.get("who")) {
-    issues.forEach((el) => {
-      if (el.getAttribute("creator") != urlParams.get("who")) {
-        el.style.visibility = "hidden";
-      }
-    });
-  } else {
-    issues.forEach((el) => {
-      issuesVisible++;
-      el.style.visibility = "visible";
-    });
+    state = { ...state, issues: state.issues.filter((issue) => issue.opener.name == urlParams.get("who")) };
   }
 
-  if (issuesVisible == 0) {
-    content.innerHTML = views.error;
-  } else {
-    content.innerHTML = views.issues;
-  }
+  return state;
 }
 
 /**
@@ -37,9 +22,12 @@ export function filterIssuesByUrl(issues, urlParams, views) {
  * @param {[HTMLElement]} issues An array of Issue objects.
  * @param {{Object}} views Templates in case there are no more issues left.
  */
-export function addListenerUrlChange(issues, views) {
+export function addListenerUrlChange(state) {
   window.addEventListener("urlchangeevent", (ev) => {
     const newUrlParams = new URLSearchParams(ev.newURL.search);
-    filterIssuesByUrl(issues, newUrlParams, views);
+    const newState = filterIssuesByUrl(newUrlParams, state);
+
+    const updateStateEvent = new CustomEvent("updateStateEvent", { detail: newState });
+    document.dispatchEvent(updateStateEvent);
   });
 }

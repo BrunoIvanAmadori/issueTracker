@@ -2,7 +2,7 @@ import { getScore } from "./utils/getScore";
 import { getWeightTable } from "./utils/getWeightTable";
 import { getDateDiffInDays } from "./utils/getDateDiffInDays";
 import { countBusinessDays } from "./utils/countBusinessDays";
-import { sortByScore } from "./utils/sortByScore";
+import { sortAsc } from "./utils/sortAsc";
 
 /**
  * Model for the Issue object
@@ -15,6 +15,7 @@ export class Issue {
     this.opener = { name: params.opener.name, avatarUrl: params.opener.avatarUrl };
     this.labels = params.labels;
     this.score = params.score;
+    this.created_at = params.created_at;
   }
 }
 
@@ -46,7 +47,7 @@ export class IssuesController {
         return this.issueSerializer.deSerialize(issue);
       });
 
-      const sortedData = sortByScore(deserializedData);
+      let sortedData = sortAsc(deserializedData, ["score", "created_at"]);
 
       return sortedData.map((data) => new Issue(data));
     } catch (e) {
@@ -63,10 +64,7 @@ export class IssuesSerializer {
   deSerialize(data) {
     const today = new Date();
     const creationDate = new Date(data.created_at);
-
     const relativeDateCreated = getDateDiffInDays(creationDate, today);
-
-    const totalBusinessDays = countBusinessDays(creationDate, today);
 
     const labels = [...data.labels].map((label) => {
       return {
@@ -75,15 +73,13 @@ export class IssuesSerializer {
       };
     });
 
-    const score = getScore(getWeightTable(), labels, totalBusinessDays);
-
     return {
       title: data.title,
       number: data.number,
       relative_date_created: relativeDateCreated,
       opener: { name: data.user.login, avatarUrl: data.user.avatar_url },
       labels: labels,
-      score: score,
+      created_at: data.created_at,
     };
   }
 }

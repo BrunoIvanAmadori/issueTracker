@@ -3,24 +3,28 @@
  */
 import { Home } from "../pages/Home";
 
-export function initSaveChangesButton(defaultWeightTable) {
+export function initSaveChangesButton(state) {
   // initSaveChangesButton
   let newWeightTable = [];
+  let oldWeightTable = state.weightTable;
   const saveChangesButton = document.querySelector(".saveChanges");
   const alertSuccess = document.getElementById("successCustomize");
 
   saveChangesButton.addEventListener("click", async (ev) => {
-    for (let i = 0; i < defaultWeightTable.length; i++) {
-      newWeightTable[i] = defaultWeightTable[i];
-      newWeightTable[i].name = defaultWeightTable[i].name;
-      newWeightTable[i].value = document.getElementById(defaultWeightTable[i].name).value;
+    for (let i = 0; i < oldWeightTable.length; i++) {
+      newWeightTable[i] = oldWeightTable[i];
+      newWeightTable[i].name = oldWeightTable[i].name;
+      newWeightTable[i].value = document.getElementById(oldWeightTable[i].name).value;
     }
 
-    window.sessionStorage.setItem("weightTables", JSON.stringify(newWeightTable));
+    const newState = { ...state, weightTable: newWeightTable };
 
-    await Home.update();
+    // window.sessionStorage.setItem("weightTables", JSON.stringify(newWeightTable));
 
     alertSuccess.classList.add("show");
     setTimeout(() => alertSuccess.classList.remove("show"), 2000);
+
+    const updateStateEvent = new CustomEvent("updateStateEvent", { detail: newState });
+    document.dispatchEvent(updateStateEvent);
   });
 }
