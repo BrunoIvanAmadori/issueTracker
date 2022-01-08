@@ -2,26 +2,19 @@ import { filterIssuesByUrl } from "../utils/filterIssuesByUrl";
 import { sortIssues } from "../utils/sortIssues";
 import { updateScore } from "../api/utils/updateScore";
 import { Member } from "../api/Members";
+import { defaultWeightTable } from "../utils/defaultWeightTable";
 
-export default (state, action) => {
+export function reducers(state, action) {
   switch (action.type) {
     case "CREATE_ISSUES":
-      const createdIssues = () => {
-        let scoredIssues = updateScore(action.payload, state.weightTable);
-        return sortIssues(scoredIssues);
-      };
-
-      return { ...state, issues: createdIssues() };
-
-    case "UPDATE_ISSUES_SCORE":
-      const updatedIssues = () => {
-        let scoredIssues = updateScore(state.issues, action.payload);
-        return sortIssues(scoredIssues);
-      };
-
-      return { ...state, filteredIssues: updatedIssues() };
+      return { ...state, issues: action.payload };
 
     case "FILTER_ISSUES":
+      /**
+       * We filter the issues in our state, first updating the score, sorting in ASC and finally filtering by URL
+       * @returns updated state.
+       */
+
       const filteredIssues = () => {
         let scoredIssues = updateScore(state.issues, state.weightTable);
         let sortedIssues = sortIssues(scoredIssues);
@@ -30,10 +23,28 @@ export default (state, action) => {
 
       return { ...state, filteredIssues: filteredIssues() };
 
+    case "UPDATE_ISSUES_SCORE":
+      /**
+       * We only update the score and sort the issues. This is mainly for the save new weight table function.
+       * @returns updated state.
+       */
+
+      const updatedIssues = () => {
+        let scoredIssues = updateScore(state.issues, action.payload);
+        return sortIssues(scoredIssues);
+      };
+
+      return { ...state, filteredIssues: updatedIssues() };
+
     case "CREATE_MEMBERS":
+      /**
+       * We insert retrieved members in our state, check if there are more in our issues and, if not, add them.
+       * @returns updated state.
+       */
+
       const createdMembers = () => {
         let membersRetrieved = action.payload;
-        // We check if members retrieved by API include users retrieved in issues. If not, add them.
+
         state.issues.map((issue) => {
           if (!membersRetrieved.find((member) => member.name == issue.opener.name)) {
             membersRetrieved.push(new Member({ name: issue.opener.name, avatarUrl: issue.opener.avatarUrl }));
@@ -45,8 +56,21 @@ export default (state, action) => {
 
       return { ...state, members: createdMembers() };
 
+    case "RESET_WEIGHT_TABLE":
+      /**
+       * We reset the weight table to default values. This is mainly for the save new weight table function.
+       * @returns updated state.
+       */
+
+      const resetedIssues = () => {
+        let scoredIssues = updateScore(state.issues, defaultWeightTable);
+        return sortIssues(scoredIssues);
+      };
+
+      return { ...state, weightTable: defaultWeightTable, filteredIssues: resetedIssues() };
+
     default:
       return state;
       break;
   }
-};
+}

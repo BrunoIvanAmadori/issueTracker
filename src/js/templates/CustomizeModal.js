@@ -1,4 +1,11 @@
-export const CustomizeModal = (data) => {
+export const CustomizeModal = (store) => {
+  let data = store.getState().weightTable;
+
+  store.subscribe(() => {
+    data = store.getState().weightTable;
+    console.log(  )
+  });
+
   const view = `
     <!-- Modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -18,7 +25,7 @@ export const CustomizeModal = (data) => {
               .join(" ")}
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-outline-danger resetToDefault">Reset to default</button>
             <button type="button" class="btn btn-primary saveChanges">Save changes</button>
           </div>
         </div>

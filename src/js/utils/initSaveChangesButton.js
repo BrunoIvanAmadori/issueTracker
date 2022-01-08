@@ -8,6 +8,7 @@ export function initSaveChangesButton(store) {
   let newWeightTable = [];
   let oldWeightTable = store.getState().weightTable;
   const saveChangesButton = document.querySelector(".saveChanges");
+  const resetToDefaultButton = document.querySelector(".resetToDefault");
   const alertSuccess = document.getElementById("successCustomize");
 
   saveChangesButton.addEventListener("click", async (ev) => {
@@ -19,6 +20,17 @@ export function initSaveChangesButton(store) {
     }
 
     store.dispatch({ type: "UPDATE_ISSUES_SCORE", payload: newWeightTable });
+
+    // window.sessionStorage.setItem("weightTables", JSON.stringify(newWeightTable));
+
+    alertSuccess.classList.add("show");
+    setTimeout(() => alertSuccess.classList.remove("show"), 2000);
+  });
+
+  resetToDefaultButton.addEventListener("click", async (ev) => {
+    // We copy the oldWeightTable to a newWeightTable updating the values of the form
+
+    store.dispatch({ type: "RESET_WEIGHT_TABLE", payload: newWeightTable });
 
     // window.sessionStorage.setItem("weightTables", JSON.stringify(newWeightTable));
 

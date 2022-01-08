@@ -4,36 +4,28 @@ import "bootstrap/dist/js/bootstrap.bundle.min";
 
 import { Home } from "./pages/Home";
 import { createStore } from "redux";
-import { default as reducers } from "./reducers/reducers";
+import { reducers } from "./reducers/reducers";
+import { defaultWeightTable } from "./utils/defaultWeightTable";
 
-const initialState = {
+const defaultState = {
   issues: [],
   members: [],
-  weightTable: [
-    {
-      name: "Critical Priority",
-      value: 1000,
-    },
-    {
-      name: "High Priority",
-      value: 50,
-    },
-    {
-      name: "Mid Priority",
-      value: 20,
-    },
-    {
-      name: "Low Priority",
-      value: 10,
-    },
-    {
-      name: "Very Low Priority",
-      value: 2,
-    },
-  ],
+  weightTable: defaultWeightTable
 };
 
-const store = new createStore(reducers, initialState);
+function getInitialState() {
+  if (sessionStorage.getItem("State")) {
+    return JSON.parse(sessionStorage.getItem("State"));
+  } else {
+    return defaultState;
+  }
+}
+
+const store = new createStore(reducers, getInitialState());
+
+store.subscribe(() => {
+  sessionStorage.setItem("State", JSON.stringify(store.getState()));
+});
 
 window.addEventListener("load", async () => {
   console.log("load principal");

@@ -195,8 +195,12 @@ body {
 
 #successCustomize {
   z-index: 9999;
-  position: absolute;
+  position: fixed;
   bottom: 30px;
   width: 300px;
   left: calc(50vw - 150px);
+}
+
+.modal-footer {
+  justify-content: space-between;
 }

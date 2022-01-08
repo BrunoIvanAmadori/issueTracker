@@ -58,7 +58,7 @@ export class Home {
 
     addListenerUrlChange(store);
 
-    await this.renderHTML(store.getState());
+    await this.renderHTML(store);
     store.subscribe(() => this.updateHTML(store.getState()));
 
     this.injectFunctionality(store);
@@ -73,13 +73,18 @@ export class Home {
     return { issues, members };
   }
 
-  async renderHTML(state) {
+  async renderHTML(store) {
     // we inject the data into the templates
+    const members = store.getState().members;
+
     const header = Header();
-    const menu = await Menu(state.members);
-    const modal = await CustomizeModal(state.weightTable);
+    const menu = await Menu(members);
+    const modal = await CustomizeModal(store);
     const error = await IssueError();
-    const issues = state.filteredIssues.map((issue) => Issue(issue)).join(" ");
+    const issues = store
+      .getState()
+      .filteredIssues.map((issue) => Issue(issue))
+      .join(" ");
 
     // we obtain the main placeholders for our content and render
     const headerSection = null || document.getElementById("header");
