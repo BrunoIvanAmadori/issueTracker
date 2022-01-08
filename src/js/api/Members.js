@@ -2,7 +2,7 @@
  * Model for the Member object
  */
 
-class Member {
+export class Member {
   constructor(params) {
     this.name = params.name;
     this.avatarUrl = params.avatarUrl;

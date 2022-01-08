@@ -16,34 +16,52 @@ import { initDropdownMenu } from "../utils/initDropdownMenu";
 import { countBusinessDays } from "../api/utils/countBusinessDays";
 import { getScore } from "../api/utils/getScore";
 import { sortAsc } from "../api/utils/sortAsc";
+import { updateScore } from "../api/utils/updateScore";
 
 /**
  * The main class for the Homepage
  */
 
 export class Home {
-  constructor(state) {
-    this.state = state;
+  constructor(store) {
+    // store.subscribe(() => {
+    //   this.state = store.getState();
+    // });
 
-    this.init();
+    this.init(store);
   }
 
-  async init() {
-    this.data = await this.getData();
-    this.state.issues = this.data.issues;
-    this.state.members = this.data.members;
+  async init(store) {
+    // Then, we map the data to props
 
-    document.addEventListener("updateStateEvent", (ev) => {
-      this.setState(() => {
-        console.log("is happnenig");
-        this.state = ev.detail;
-        console.log(this.state);
-      }, "issues");
+    // First we fetch
+    this.data = await this.getData();
+
+    store.dispatch({ type: "CREATE_ISSUES", payload: this.data.issues });
+    store.dispatch({ type: "FILTER_ISSUES", payload: window.location.search });
+    store.dispatch({ type: "CREATE_MEMBERS", payload: this.data.members });
+
+    console.log(store.getState());
+
+    // this.state.issues = this.data.issues;
+    // this.state.members = this.data.members;
+
+    // this.state = filterIssuesByUrl(this.state);
+    // updateScore(this.state);
+    // this.state = sortAsc(this.state, ["created_at", "score"]);
+
+    document.addEventListener("updateStateEvent", async (ev) => {
+      // this.state = ev.detail;
+      // updateScore(this.state);
+      // await this.renderHTML("issues");
     });
 
-    await this.renderHTML(this.state);
+    addListenerUrlChange(store);
 
-    this.injectFunctionality();
+    await this.renderHTML(store.getState());
+    store.subscribe(() => this.updateHTML(store.getState()));
+
+    this.injectFunctionality(store);
   }
 
   async getData() {
@@ -55,58 +73,43 @@ export class Home {
     return { issues, members };
   }
 
-  async renderHTML(option) {
-    this.updateScore();
+  async renderHTML(state) {
     // we inject the data into the templates
     const header = Header();
-    const menu = await Menu(this.state.members);
-    const modal = await CustomizeModal(weightTable);
+    const menu = await Menu(state.members);
+    const modal = await CustomizeModal(state.weightTable);
     const error = await IssueError();
-    const issues = this.state.issues.map((issue) => Issue(issue)).join(" ");
+    const issues = state.filteredIssues.map((issue) => Issue(issue)).join(" ");
 
     // we obtain the main placeholders for our content and render
     const headerSection = null || document.getElementById("header");
     const contentSection = null || document.getElementById("content");
     const menuSection = null || document.getElementById("menu");
 
-    if (option == "issues") {
-      contentSection.innerHTML = issues;
-    } else {
-      headerSection.innerHTML = header;
-      contentSection.innerHTML = issues;
-      menuSection.innerHTML = menu + modal;
-    }
+    headerSection.innerHTML = header;
+    menuSection.innerHTML = menu + modal;
+    contentSection.innerHTML = issues;
   }
 
-  injectFunctionality() {
-    const dropdownMenu = document.querySelector(".dropdown-menu");
+  updateHTML(state) {
+    const issues = state.filteredIssues.map((issue) => Issue(issue)).join(" ");
+
+    const contentSection = null || document.getElementById("content");
+
+    contentSection.innerHTML = issues;
+  }
+
+  injectFunctionality(store) {
     const urlParams = new URLSearchParams(window.location.search);
     const checkboxElements = document.querySelectorAll(".memberFilter__checkbox");
 
-    this.setState(() => {
-      this.state = filterIssuesByUrl(urlParams, this.state);
-      console.log(this.state);
-    }, "issues");
-
     initCheckbox(checkboxElements, urlParams);
     initDropdownMenu();
-    initSaveChangesButton(this.state);
-    addListenerUrlChange(this.state);
+    initSaveChangesButton(store);
   }
 
   async setState(cb, elToRender) {
     cb();
     await this.renderHTML(elToRender);
-  }
-
-  updateScore() {
-    this.state.issues.map((issue) => {
-      const today = new Date();
-      const creationDate = new Date(issue.created_at);
-      const totalBusinessDays = countBusinessDays(creationDate, today);
-      const score = getScore(this.state.weightTable, issue.labels, totalBusinessDays);
-      issue.score = score;
-    });
-    this.state.issues = sortAsc(this.state.issues, ["score", "created_at"]);
   }
 }

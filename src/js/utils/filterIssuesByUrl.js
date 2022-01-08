@@ -7,14 +7,14 @@
 
 import { Home } from "../pages/Home";
 
-export function filterIssuesByUrl(urlParams, state) {
-  let issuesVisible = 0;
+export function filterIssuesByUrl(issues, url) {
+  const urlParams = new URLSearchParams(url);
 
   if (urlParams.get("who")) {
-    state = { ...state, issues: state.issues.filter((issue) => issue.opener.name == urlParams.get("who")) };
+    return issues.filter((issue) => issue.opener.name == urlParams.get("who"));
+  } else {
+    return issues;
   }
-
-  return state;
 }
 
 /**
@@ -22,12 +22,8 @@ export function filterIssuesByUrl(urlParams, state) {
  * @param {[HTMLElement]} issues An array of Issue objects.
  * @param {{Object}} views Templates in case there are no more issues left.
  */
-export function addListenerUrlChange(state) {
+export function addListenerUrlChange(store) {
   window.addEventListener("urlchangeevent", (ev) => {
-    const newUrlParams = new URLSearchParams(ev.newURL.search);
-    const newState = filterIssuesByUrl(newUrlParams, state);
-
-    const updateStateEvent = new CustomEvent("updateStateEvent", { detail: newState });
-    document.dispatchEvent(updateStateEvent);
+    store.dispatch({ type: "FILTER_ISSUES", payload: ev.newURL.search });
   });
 }

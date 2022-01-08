@@ -3,8 +3,10 @@ import "./styles/style.scss";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 
 import { Home } from "./pages/Home";
+import { createStore } from "redux";
+import { default as reducers } from "./reducers/reducers";
 
-const state = {
+const initialState = {
   issues: [],
   members: [],
   weightTable: [
@@ -31,7 +33,9 @@ const state = {
   ],
 };
 
+const store = new createStore(reducers, initialState);
+
 window.addEventListener("load", async () => {
   console.log("load principal");
-  await new Home(state);
+  await new Home(store);
 });

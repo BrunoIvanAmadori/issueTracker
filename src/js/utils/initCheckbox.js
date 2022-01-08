@@ -4,7 +4,7 @@ import { linkTo } from "./linkTo";
  * A function to init the checkbox logic on the members filter
  * @param {[HTMLElement]} checkboxElements Checkboxes to lookup.
  */
-export function initCheckbox(checkboxElements) {
+export function initCheckbox(checkboxElements, urlParams) {
   for (let i = 0; i < checkboxElements.length; i++) {
     checkboxElements[i].addEventListener("change", (ev) => {
       if (ev.target.checked) {
@@ -20,6 +20,11 @@ export function initCheckbox(checkboxElements) {
       } else {
         linkTo("/");
       }
+    });
+  }
+  if (urlParams.get("who")) {
+    checkboxElements.forEach((checkbox) => {
+      checkbox.value == urlParams.get("who") ? (checkbox.checked = true) : (checkbox.checked = false);
     });
   }
 }

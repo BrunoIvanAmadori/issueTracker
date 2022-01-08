@@ -34,7 +34,6 @@ export class IssuesController {
 
   async getAllIssues() {
     try {
-      console.log("fetching posta");
       const response = await this.octokit.request("GET /repos/{repo}/{project}/issues", {
         headers: {
           Authorization: `Token ${this.token}`,
@@ -47,9 +46,7 @@ export class IssuesController {
         return this.issueSerializer.deSerialize(issue);
       });
 
-      let sortedData = sortAsc(deserializedData, ["score", "created_at"]);
-
-      return sortedData.map((data) => new Issue(data));
+      return deserializedData.map((data) => new Issue(data));
     } catch (e) {
       console.error(e);
     }
