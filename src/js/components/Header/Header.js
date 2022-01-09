@@ -1,4 +1,4 @@
-import { HeaderTemplate } from "../templates/HeaderTemplate";
+import { HeaderTemplate } from "./HeaderTemplate";
 
 export class Header {
   constructor(options) {

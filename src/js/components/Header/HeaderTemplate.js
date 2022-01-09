@@ -1,5 +1,5 @@
-import RotundaLogo from "../../img/rotunda-logo.png";
-import GithubLogo from "../../img/github-logo.png";
+import RotundaLogo from "../../../img/rotunda-logo.png";
+import GithubLogo from "../../../img/github-logo.png";
 
 export const HeaderTemplate = () => {
   const view = `

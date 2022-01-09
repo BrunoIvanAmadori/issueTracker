@@ -1,6 +1,6 @@
 import { filterIssuesByUrl } from "../utils/filterIssuesByUrl";
 import { sortIssues } from "../utils/sortIssues";
-import { updateScore } from "../api/utils/updateScore";
+import { updateScore } from "../utils/updateScore";
 import { Member } from "../api/Members";
 
 export function reducers(state, action) {

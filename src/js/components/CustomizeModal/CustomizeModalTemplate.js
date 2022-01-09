@@ -1,11 +1,11 @@
 export const CustomizeModalTemplate = (data) => {
   const view = `
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="customize-modal" tabindex="-1" aria-labelledby="customize-modal" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Customize the weight of the priority labels.</h5>
+            <h5 class="modal-title" id="customize-modal">Customize the weight of the priority labels.</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -20,8 +20,13 @@ export const CustomizeModalTemplate = (data) => {
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-outline-danger resetToDefault">Reset to default</button>
-            <button type="button" class="btn btn-primary saveChanges">Save changes</button>
+            <button data-action="reset-to-default" type="button" class="btn btn-outline-danger">Reset to default</button>
+            <div>
+            <button data-action="save-changes" type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Close</button>
+
+            </div>
+            
           </div>
         </div>
       </div>
@@ -33,9 +38,13 @@ export const CustomizeModalTemplate = (data) => {
         <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
       </symbol>
     </svg>
-    <div id="successCustomize" class="alert alert-success fade d-flex align-items-center" role="alert">
-      <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-      <span id="alert-message"></span>
+    <div id="successCustomize" class="alert alert-success fade d-flex align-items-center justify-content-between" role="alert">
+      <div>
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+        <span id="alert-message"></span>
+      </div>
+
+      <button data-action="close-alert" type="button" class="btn-close"></button>
     </div>
     `;
 

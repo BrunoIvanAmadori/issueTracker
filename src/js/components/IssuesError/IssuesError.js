@@ -1,6 +1,6 @@
-import { IssueTemplate } from "../templates/IssueTemplate";
-import { IssueErrorTemplate } from "../templates/IssueErrorTemplate";
-import { linkTo } from "../utils/linkTo";
+import { IssueTemplate } from "../Issues/IssuesTemplate";
+import { IssueErrorTemplate } from "./IssueErrorTemplate";
+import { linkTo } from "../../utils/linkTo";
 
 export class IssuesError {
   constructor(options) {

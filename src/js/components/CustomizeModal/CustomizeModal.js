@@ -1,5 +1,5 @@
-import { CustomizeModalTemplate } from "../templates/CustomizeModalTemplate";
-import { defaultWeightTable } from "../utils/defaultWeightTable";
+import { CustomizeModalTemplate } from "./CustomizeModalTemplate";
+import { defaultWeightTable } from "../../utils/defaultWeightTable";
 
 export class CustomizeModal {
   constructor(options) {
@@ -17,21 +17,28 @@ export class CustomizeModal {
   }
 
   initComponent() {
-    const saveChangesButton = this.$el.querySelector(".saveChanges");
-    const resetToDefaultButton = this.$el.querySelector(".resetToDefault");
+    const alertSuccess = this.$el.querySelector("#successCustomize");
+    const saveChangesButton = this.$el.querySelector("[data-action='save-changes']");
+    const resetToDefaultButton = this.$el.querySelector("[data-action='reset-to-default']");
+    const dismissAlert = this.$el.querySelector("[data-action='close-alert'");
 
     saveChangesButton.addEventListener("click", async (ev) => {
-      window.clearTimeout(this.timeout);
       let newWeightTable = this.getWeightTableFromForm();
       this.store.dispatch({ type: "UPDATE_ISSUES_SCORE", payload: newWeightTable });
+
+      window.clearTimeout(this.timeout);
       this.showAlert("Done! Weights updated!");
     });
 
     resetToDefaultButton.addEventListener("click", async (ev) => {
-      window.clearTimeout(this.timeout);
       this.postWeightTableToForm();
       this.store.dispatch({ type: "RESET_WEIGHT_TABLE", payload: this.defaultWeightTable });
+      window.clearTimeout(this.timeout);
       this.showAlert("Done! Weights reseted to default values!");
+    });
+
+    dismissAlert.addEventListener("click", async (ev) => {
+      alertSuccess.classList.remove("show");
     });
   }
 
@@ -49,7 +56,6 @@ export class CustomizeModal {
   }
 
   postWeightTableToForm() {
-    // initSaveChangesButton
     let weightTable = this.defaultWeightTable;
 
     for (let i = 0; i < weightTable.length; i++) {

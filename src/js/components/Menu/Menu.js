@@ -1,5 +1,5 @@
-import { MenuTemplate } from "../templates/MenuTemplate";
-import { linkTo } from "../utils/linkTo";
+import { MenuTemplate } from "./MenuTemplate";
+import { linkTo } from "../../utils/linkTo";
 
 export class Menu {
   constructor(options) {

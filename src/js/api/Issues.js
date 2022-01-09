@@ -1,8 +1,5 @@
-import { getScore } from "./utils/getScore";
-import { getWeightTable } from "./utils/getWeightTable";
-import { getDateDiffInDays } from "./utils/getDateDiffInDays";
-import { countBusinessDays } from "./utils/countBusinessDays";
-import { sortAsc } from "./utils/sortAsc";
+import { getDateDiffInDays } from "../utils/getDateDiffInDays";
+
 
 /**
  * Model for the Issue object

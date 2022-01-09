@@ -1,4 +1,4 @@
-import { getContrast } from "../utils/getContrast";
+import { getContrast } from "../../utils/getContrast";
 
 export const IssueTemplate = (data) => {
   const view = `

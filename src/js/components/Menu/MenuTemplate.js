@@ -18,7 +18,7 @@ export const MenuTemplate = async (membersData) => {
               .join(" ")}
             </ul>
         </div>
-        <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fas fa-cog me-1"></i> Customize</button>
+        <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#customize-modal"><i class="fas fa-cog me-1"></i> Customize</button>
     </div>
     `;
   return view;

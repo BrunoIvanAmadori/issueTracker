@@ -1,10 +1,10 @@
-import { Menu } from "../components/Menu";
-import { Header } from "../components/Header";
-import { CustomizeModal } from "../components/CustomizeModal";
-import { Issues } from "../components/Issues";
-import { IssuesError } from "../components/IssuesError";
+import { Menu } from "../components/Menu/Menu";
+import { Header } from "../components/Header/Header";
+import { CustomizeModal } from "../components/CustomizeModal/CustomizeModal";
+import { Issues } from "../components/Issues/Issues";
+import { IssuesError } from "../components/IssuesError/IssuesError";
 
-import { APIConfig } from "../api/APIConfig";
+import { config } from "../api/config";
 import { GitHubAPI } from "../api/GitHubAPI";
 
 /**
@@ -33,7 +33,7 @@ export class Home {
 
   async getData() {
     // we fetch the issues and members data from GitHUb
-    const API = new GitHubAPI(APIConfig);
+    const API = new GitHubAPI(config);
     const issues = await API.IssuesController.getAllIssues();
     const members = await API.MembersController.getAllMembers();
 

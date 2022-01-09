@@ -1,6 +1,6 @@
-import { IssueTemplate } from "../templates/IssueTemplate";
-import { IssueErrorTemplate } from "../templates/IssueErrorTemplate";
-import { linkTo } from "../utils/linkTo";
+import { IssueTemplate } from "./IssuesTemplate";
+import { IssueErrorTemplate } from "../IssuesError/IssueErrorTemplate";
+import { linkTo } from "../../utils/linkTo";
 export class Issues {
   constructor(options) {
     this.$el = options.el;
