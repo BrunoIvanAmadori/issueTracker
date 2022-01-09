@@ -12,7 +12,7 @@ jobs:
           TOKEN: ${{ secrets.TOKEN }}
         run: |
           npm i
-          npx webpack --mode production --env TOKEN=$TOKEN
+          echo npx webpack --mode production --env TOKEN=$TOKEN
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.2.1
