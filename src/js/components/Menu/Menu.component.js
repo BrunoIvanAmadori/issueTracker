@@ -1,5 +1,6 @@
 import MenuTemplate from "./Menu.template.njk";
 import { linkTo } from "../../utils/linkTo";
+import "./Menu.style.scss";
 
 export class MenuComponent {
   constructor(options) {
@@ -20,12 +21,16 @@ export class MenuComponent {
   }
   /**
    * A function to init the checkbox logic on the members filter
-   * @param {[HTMLElement]} checkboxElements Checkboxes to lookup.
-   * @param {URLSearchParams} URLSearchParams URLSearchParams object to check.
    */
   initCheckbox() {
     const urlParams = new URLSearchParams(window.location.search);
     const checkboxElements = document.querySelectorAll(".memberFilter__checkbox");
+
+    if (urlParams.get("who")) {
+      checkboxElements.forEach((checkbox) => {
+        checkbox.value == urlParams.get("who") ? (checkbox.checked = true) : (checkbox.checked = false);
+      });
+    }
 
     for (let i = 0; i < checkboxElements.length; i++) {
       checkboxElements[i].addEventListener("change", (ev) => {
@@ -42,11 +47,6 @@ export class MenuComponent {
         } else {
           linkTo("/");
         }
-      });
-    }
-    if (urlParams.get("who")) {
-      checkboxElements.forEach((checkbox) => {
-        checkbox.value == urlParams.get("who") ? (checkbox.checked = true) : (checkbox.checked = false);
       });
     }
   }

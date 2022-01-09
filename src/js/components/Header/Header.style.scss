@@ -1,0 +1,39 @@
+.header {
+  margin-bottom: 1em;
+  padding: 1em 0em;
+
+  &__github {
+    display: flex;
+    height: 100%;
+    align-items: center;
+
+    &-logo {
+      width: 50px;
+      margin-right: 1em;
+    }
+
+    &-title {
+      display: inline;
+    }
+  }
+
+  &__rotunda {
+    display: flex;
+    justify-content: end;
+    height: 100%;
+    align-items: center;
+
+    &-logo {
+      width: 160px;
+    }
+  }
+
+  &__main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    height: 100%;
+  }
+}

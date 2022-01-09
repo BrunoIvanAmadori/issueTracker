@@ -2,19 +2,15 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-var config;
-
-module.exports = (env) => {
-  if (env.production) {
-    config = require("./src/config/config-production.js");
-  } else {
-    config = require("./src/config/config-development.js");
-  }
-
-  console.log(config.mode);
-
+module.exports = () => {
   return {
-    ...config,
+    devServer: {
+      static: {
+        directory: path.join(__dirname, "docs"),
+      },
+      compress: true,
+      port: 9000,
+    },
     plugins: [
       new MiniCssExtractPlugin(),
       new HtmlWebpackPlugin({

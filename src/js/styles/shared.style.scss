@@ -1,0 +1,31 @@
+@import "/node_modules/bootstrap/scss/bootstrap";
+
+@import "/src/fonts/css/fontawesome.min.css";
+
+// Home
+
+body {
+  margin-top: 1em;
+  background-color: #f6f8fa;
+}
+
+.card {
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+}
+
+.loading {
+  height: 500px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  & > * {
+    margin: 0 auto;
+  }
+}
+a {
+  color: #0969da;
+}

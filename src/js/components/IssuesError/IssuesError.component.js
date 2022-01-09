@@ -1,9 +1,11 @@
 import IssueErrorTemplate from "./IssueError.template.njk";
 import { linkTo } from "../../utils/linkTo";
+import { fadeIn } from "../../animations/animations";
 
 export class IssuesErrorComponent {
   constructor(options) {
     this.$el = options.el;
+    this.$el.opacity = 0;
     this.store = options.store;
     this.issues;
 
@@ -18,6 +20,7 @@ export class IssuesErrorComponent {
     if (this.store.getState().filteredIssues.length == 0) {
       this.issues = IssueErrorTemplate();
       this.$el.innerHTML = this.issues;
+      fadeIn(this.$el);
       this.$el.querySelector("[data-action='remove-filters']").addEventListener("click", (ev) => {
         linkTo("/");
       });

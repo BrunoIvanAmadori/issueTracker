@@ -10,18 +10,16 @@
             <form id="customize-form">
             {% for item in data %}
               <label for= "{{item.name}}" class="form-label">{{item.name}}</label>
-              <input data-entry="number" type="number" value="{{item.value}}" class="form-control" id="{{item.name}}" name="{{item.name}}">
+              <input data-entry="number" type="number" value="{{item.value}}" class="form-control form-control-lg" id="{{item.name}}" name="{{item.name}}">
               {% endfor %}  
             </form>
           </div>
           <div class="modal-footer">
-            <button data-action="reset-to-default" type="button" class="btn btn-outline-danger">Reset to default</button>
+            <button data-action="reset-to-default" type="button" class="btn btn-outline-danger"><i class="fas fa-undo"></i> Reset</button>
             <div>
-            <button data-action="save-changes" type="button" class="btn btn-primary">Save changes</button>
-            <button id="closeModalButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Close</button>
-
+              <button data-action="save-changes" type="button" class="btn btn-primary">Save changes</button>
+              <button id="closeModalButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
             </div>
-            
           </div>
         </div>
       </div>
@@ -38,6 +36,4 @@
         <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
         <span id="alert-message"></span>
       </div>
-
-      <button data-action="close-alert" type="button" class="btn-close"></button>
     </div>

@@ -10,3 +10,5 @@
  * Copyright (c) 2014-2017, Jon Schlinkert.
  * Released under the MIT License.
  */
+
+/*! Browser bundle of nunjucks 3.2.3 (slim, only works with precompiled templates) */

@@ -1,6 +1,5 @@
 import { getDateDiffInDays } from "../utils/getDateDiffInDays";
 
-
 /**
  * Model for the Issue object
  */
@@ -13,6 +12,7 @@ export class Issue {
     this.labels = params.labels;
     this.score = params.score;
     this.created_at = params.created_at;
+    this.url = params.url;
   }
 }
 
@@ -51,7 +51,8 @@ export class IssuesController {
 }
 
 /**
- * Class that reformats the data to consume it properly
+ * Class that reformats the data to consume it properly.
+ * We'll handle the scoring and sorting later for the view.
  */
 
 export class IssuesSerializer {
@@ -68,6 +69,7 @@ export class IssuesSerializer {
     });
 
     return {
+      url: data.html_url,
       title: data.title,
       number: data.number,
       relative_date_created: relativeDateCreated,

@@ -1,0 +1,31 @@
+#menu {
+  margin-bottom: 1em;
+
+  .nav {
+    & .btn {
+      margin-right: 1em;
+    }
+  }
+
+  .memberFilter {
+    &__avatar {
+      width: 30px;
+      border-radius: 100%;
+      margin-right: 0.5em;
+    }
+
+    & .dropdown-menu {
+      padding: 0;
+      min-width: 14rem;
+      border: 0;
+      filter: drop-shadow(0 0.2rem 0.25rem rgba(0, 0, 0, 0.2));
+    }
+
+    & ul label {
+      cursor: pointer;
+      &:hover {
+        background-color: #f3f4f6;
+      }
+    }
+  }
+}

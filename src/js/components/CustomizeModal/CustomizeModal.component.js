@@ -1,11 +1,12 @@
 import { defaultWeightTable } from "../../utils/defaultWeightTable";
 import CustomizeModalTemplate from "./CustomizeModal.template.njk";
+import { shake } from "../../animations/animations";
+import "./CustomizeModal.style.scss";
 
 export class CustomizeModalComponent {
   constructor(options) {
     this.$el = options.el;
     this.store = options.store;
-
     this.defaultWeightTable = defaultWeightTable();
 
     this.render();
@@ -19,7 +20,6 @@ export class CustomizeModalComponent {
   initComponent() {
     this.addSaveButtonListener();
     this.addResetButtonListener();
-    this.addDismissAlertButtonListener();
     this.addCloseButtonListener();
   }
 
@@ -33,7 +33,6 @@ export class CustomizeModalComponent {
 
   addSaveButtonListener() {
     const saveChangesButton = this.$el.querySelector("[data-action='save-changes']");
-    const modal = this.$el.querySelector("#customize-modal");
     const closeButton = this.$el.querySelector("#closeModalButton");
 
     saveChangesButton.addEventListener("click", async (ev) => {
@@ -48,22 +47,24 @@ export class CustomizeModalComponent {
 
   addResetButtonListener() {
     const resetToDefaultButton = this.$el.querySelector("[data-action='reset-to-default']");
+    const modal = this.$el.querySelector("#customize-modal");
 
     resetToDefaultButton.addEventListener("click", async (ev) => {
       this.setFormTo(this.defaultWeightTable);
-      // this.store.dispatch({ type: "RESET_WEIGHT_TABLE", payload: this.defaultWeightTable });
-      // window.clearTimeout(this.timeout);
-      // this.showAlert("Done! Weights reseted to default values!");
+      shake(modal);
+      window.clearTimeout(this.timeout);
+      this.showAlert("Weights reseted successfully!");
     });
   }
 
-  addDismissAlertButtonListener() {
+  showAlert(message) {
     const alertSuccess = this.$el.querySelector("#successCustomize");
-    const dismissAlert = this.$el.querySelector("[data-action='close-alert'");
+    const alertMessage = this.$el.querySelector("#alert-message");
 
-    dismissAlert.addEventListener("click", async (ev) => {
-      alertSuccess.classList.remove("show");
-    });
+    alertMessage.innerHTML = message;
+
+    alertSuccess.classList.add("show");
+    this.timeout = window.setTimeout(() => alertSuccess.classList.remove("show"), 2000);
   }
 
   /**
@@ -93,15 +94,5 @@ export class CustomizeModalComponent {
     for (let i = 0; i < weightTable.length; i++) {
       document.getElementById(weightTable[i].name).value = weightTable[i].value;
     }
-  }
-
-  showAlert(message) {
-    const alertSuccess = this.$el.querySelector("#successCustomize");
-    const alertMessage = this.$el.querySelector("#alert-message");
-
-    alertMessage.innerHTML = message;
-
-    alertSuccess.classList.add("show");
-    this.timeout = window.setTimeout(() => alertSuccess.classList.remove("show"), 2000);
   }
 }

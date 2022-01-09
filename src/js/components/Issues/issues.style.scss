@@ -1,0 +1,85 @@
+.issue {
+  &__card {
+    margin-bottom: 1em;
+    overflow: hidden;
+    filter: drop-shadow(0 0.2rem 0.1rem rgba(0, 0, 0, 0.1));
+  }
+
+  &__score {
+    display: flex;
+    height: 100%;
+    padding: 5px 15px;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #f6f8fa;
+
+    &-number {
+      font-size: 36px;
+      font-weight: 500;
+    }
+
+    &-title {
+      color: #57606a;
+      font-weight: 300;
+    }
+  }
+
+  &__body {
+    padding: 2em 1em;
+  }
+
+  &__description {
+    color: #57606a;
+    margin-bottom: 1.5em;
+    line-height: 2em;
+  }
+
+  &__title {
+    margin-bottom: 1em;
+  }
+
+  &__error {
+    text-align: center;
+    width: 100%;
+    border: 1px solid #dedede;
+    border-radius: 1em;
+    height: 250px;
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
+  }
+
+  &__label {
+    padding: 0.3em 1.3em;
+    border-radius: 1em;
+    text-transform: uppercase;
+    margin-right: 0.5em;
+    font-weight: 600;
+    white-space: nowrap;
+    line-height: 2.5em;
+    font-size: 13px;
+  }
+
+  &__avatar {
+    width: 26px;
+    border-radius: 100%;
+    margin-right: 0.5em;
+    position: relative;
+    top: -3px;
+
+    &-container {
+      display: inline;
+      border: 1px solid #dedede;
+      padding: 0.3em 0.7em;
+      border-radius: 0.3em;
+      white-space: nowrap;
+      position: relative;
+    }
+
+    &-name {
+      top: -1px;
+      color: #57606a;
+      position: relative;
+    }
+  }
+}

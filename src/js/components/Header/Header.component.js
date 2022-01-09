@@ -1,4 +1,5 @@
 import HeaderTemplate from "./Header.template.njk";
+import "./Header.style.scss";
 
 export class HeaderComponent {
   constructor(options) {
