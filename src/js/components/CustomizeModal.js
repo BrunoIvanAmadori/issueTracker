@@ -1,4 +1,3 @@
-import { Modal } from "bootstrap";
 import { CustomizeModalTemplate } from "../templates/CustomizeModalTemplate";
 import { defaultWeightTable } from "../utils/defaultWeightTable";
 
@@ -6,7 +5,7 @@ export class CustomizeModal {
   constructor(options) {
     this.$el = options.el;
     this.store = options.store;
-    // this.store.subscribe(this.update.bind(this));
+
     this.defaultWeightTable = defaultWeightTable();
 
     this.render();
@@ -22,27 +21,21 @@ export class CustomizeModal {
     const resetToDefaultButton = this.$el.querySelector(".resetToDefault");
 
     saveChangesButton.addEventListener("click", async (ev) => {
+      window.clearTimeout(this.timeout);
       let newWeightTable = this.getWeightTableFromForm();
-
       this.store.dispatch({ type: "UPDATE_ISSUES_SCORE", payload: newWeightTable });
       this.showAlert("Done! Weights updated!");
-      console.log("Done! Weights updated!");
     });
 
     resetToDefaultButton.addEventListener("click", async (ev) => {
+      window.clearTimeout(this.timeout);
       this.postWeightTableToForm();
       this.store.dispatch({ type: "RESET_WEIGHT_TABLE", payload: this.defaultWeightTable });
-
       this.showAlert("Done! Weights reseted to default values!");
     });
   }
 
-  update() {
-    // console.log("onupdate : ", this.store.getState());
-  }
-
   getWeightTableFromForm() {
-    // initSaveChangesButton
     let weightTableFromForm = [];
     let weightTableFromState = this.store.getState().weightTable;
 
@@ -59,8 +52,6 @@ export class CustomizeModal {
     // initSaveChangesButton
     let weightTable = this.defaultWeightTable;
 
-    console.log("weightTable del store: ", weightTable);
-
     for (let i = 0; i < weightTable.length; i++) {
       document.getElementById(weightTable[i].name).value = weightTable[i].value;
     }
@@ -69,9 +60,10 @@ export class CustomizeModal {
   showAlert(message) {
     const alertSuccess = this.$el.querySelector("#successCustomize");
     const alertMessage = this.$el.querySelector("#alert-message");
+
     alertMessage.innerHTML = message;
 
     alertSuccess.classList.add("show");
-    setTimeout(() => alertSuccess.classList.remove("show"), 2000);
+    this.timeout = window.setTimeout(() => alertSuccess.classList.remove("show"), 2000);
   }
 }

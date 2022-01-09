@@ -1,7 +1,7 @@
 import RotundaLogo from "../../img/rotunda-logo.png";
 import GithubLogo from "../../img/github-logo.png";
 
-export const Header = () => {
+export const HeaderTemplate = () => {
   const view = `
   <div class="header__main">
     <div class="header__github col-12 col-md-6 justify-content-center justify-content-md-start">

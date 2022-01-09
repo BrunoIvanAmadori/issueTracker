@@ -1,6 +1,6 @@
 import { getContrast } from "../utils/getContrast";
 
-export const Issue = (data) => {
+export const IssueTemplate = (data) => {
   const view = `
     <div class="issue__card card " creator="${data.opener.name}">
       <div class="row">

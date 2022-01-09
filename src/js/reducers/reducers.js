@@ -2,7 +2,6 @@ import { filterIssuesByUrl } from "../utils/filterIssuesByUrl";
 import { sortIssues } from "../utils/sortIssues";
 import { updateScore } from "../api/utils/updateScore";
 import { Member } from "../api/Members";
-import { defaultWeightTable } from "../utils/defaultWeightTable";
 
 export function reducers(state, action) {
   switch (action.type) {
@@ -29,11 +28,8 @@ export function reducers(state, action) {
        * @returns updated state.
        */
 
-      // console.log(action.payload);
-
       const updatedIssues = () => {
         let scoredIssues = updateScore(state.issues, action.payload);
-        console.log("updated issues");
         return sortIssues(scoredIssues);
       };
 
@@ -44,8 +40,6 @@ export function reducers(state, action) {
        * We insert retrieved members in our state, check if there are more in our issues and, if not, add them.
        * @returns updated state.
        */
-
-      // console.log("created members");
 
       const createdMembers = () => {
         let membersRetrieved = action.payload;
@@ -67,20 +61,15 @@ export function reducers(state, action) {
        * @returns updated state.
        */
 
-      // console.log("default", defaultWeightTable);
-
       const resetedIssues = () => {
         let scoredIssues = updateScore(state.issues, action.payload);
 
         return sortIssues(scoredIssues);
       };
 
-      console.log(state);
-
       return { ...state, filteredIssues: resetedIssues() };
 
     default:
       return state;
-      break;
   }
 }

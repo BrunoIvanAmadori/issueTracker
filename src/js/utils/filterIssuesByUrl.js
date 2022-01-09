@@ -14,14 +14,3 @@ export function filterIssuesByUrl(issues, url) {
     return issues;
   }
 }
-
-/**
- * A function that listens to url changes and applies Issues filtering
- * @param {[HTMLElement]} issues An array of Issue objects.
- * @param {{Object}} views Templates in case there are no more issues left.
- */
-export function addListenerUrlChange(store) {
-  window.addEventListener("urlchangeevent", (ev) => {
-    store.dispatch({ type: "FILTER_ISSUES", payload: ev.newURL.search });
-  });
-}

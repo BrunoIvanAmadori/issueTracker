@@ -1,4 +1,4 @@
-export const IssueError = () => {
+export const IssueErrorTemplate = () => {
   const view = `
     <div class="issue__error d-flex align-items-center">
       <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -9,6 +9,7 @@ export const IssueError = () => {
       <svg class="bi flex-shrink-0 me-2" width="50" height="50" role="img" aria-label="Warning:"><use xlink:href="#exclamation-triangle-fill"/></svg>
       <h3><i>Oops!</i> It seems there are no issues here.</h3>
        <p>Please try removing the filters.</p>
+       <button data-action="remove-filters" class="btn btn-outline-primary">Remove filters</button>
     </div>
       `;
   return view;

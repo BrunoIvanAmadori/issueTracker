@@ -39,7 +39,7 @@ body {
   &__score {
     display: flex;
     height: 100%;
-    padding: 15px;
+    padding: 5px 15px;
     justify-content: center;
     flex-direction: column;
     background-color: #f6f8fa;
@@ -197,8 +197,8 @@ body {
   z-index: 9999;
   position: fixed;
   bottom: 30px;
-  width: 300px;
-  left: calc(50vw - 150px);
+  width: 400px;
+  left: calc(50vw - 200px);
 }
 
 .modal-footer {

@@ -9,19 +9,19 @@ export function configureStore() {
     weightTable: defaultWeightTable(),
   };
 
-  // function getInitialState() {
-  //   if (sessionStorage.getItem("State")) {
-  //     return JSON.parse(sessionStorage.getItem("State"));
-  //   } else {
-  //     return defaultState;
-  //   }
-  // }
+  function getInitialState() {
+    if (sessionStorage.getItem("State")) {
+      return JSON.parse(sessionStorage.getItem("State"));
+    } else {
+      return defaultState;
+    }
+  }
 
-  const store = new createStore(reducers, defaultState);
+  const store = new createStore(reducers, getInitialState());
 
-  // store.subscribe(() => {
-  //   sessionStorage.setItem("State", JSON.stringify(store.getState()));
-  // });
+  store.subscribe(() => {
+    sessionStorage.setItem("State", JSON.stringify(store.getState()));
+  });
 
   return store;
 }

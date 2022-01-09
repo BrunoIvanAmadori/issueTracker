@@ -1,4 +1,4 @@
-export const Menu = async (membersData) => {
+export const MenuTemplate = async (membersData) => {
   let view = `
     <div class="nav justify-content-center justify-content-md-start">
         <div class="memberFilter dropdown">
