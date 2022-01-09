@@ -4,7 +4,7 @@ import { CustomizeModalComponent } from "../components/CustomizeModal/CustomizeM
 import { IssuesComponent } from "../components/Issues/Issues.component";
 import { IssuesErrorComponent } from "../components/IssuesError/IssuesError.component";
 
-import { config } from "../api/config";
+// import { config } from "../api/config";
 import { GitHubAPI } from "../api/GitHubAPI";
 
 /**
@@ -12,12 +12,12 @@ import { GitHubAPI } from "../api/GitHubAPI";
  */
 
 export class Home {
-  constructor(store) {
-    this.init(store);
+  constructor(store, config) {
+    this.init(store, config);
   }
 
-  async init(store) {
-    this.data = await this.getData();
+  async init(store, config) {
+    this.data = await this.getData(config);
 
     // We prepare the data for view shooting the following events
     store.dispatch({ type: "CREATE_ISSUES", payload: this.data.issues });
@@ -34,7 +34,7 @@ export class Home {
    * @returns Object with issues and members
    */
 
-  async getData() {
+  async getData(config) {
     const API = new GitHubAPI(config);
     const issues = await API.IssuesController.getAllIssues();
     const members = await API.MembersController.getAllMembers();

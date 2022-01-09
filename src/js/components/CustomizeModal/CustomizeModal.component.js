@@ -50,8 +50,8 @@ export class CustomizeModalComponent {
     const modal = this.$el.querySelector("#customize-modal");
 
     resetToDefaultButton.addEventListener("click", async (ev) => {
-      this.setFormTo(this.defaultWeightTable);
       shake(modal);
+      this.setFormTo(this.defaultWeightTable);
       window.clearTimeout(this.timeout);
       this.showAlert("Weights reseted successfully!");
     });

@@ -1,8 +1,10 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const { DefinePlugin } = require("webpack");
 
-module.exports = () => {
+module.exports = (env) => {
+  console.log("env: ", env);
   return {
     devServer: {
       static: {
@@ -15,6 +17,9 @@ module.exports = () => {
       new MiniCssExtractPlugin(),
       new HtmlWebpackPlugin({
         template: "src/index.html",
+      }),
+      new DefinePlugin({
+        "process.env.TOKEN": JSON.stringify(env.TOKEN),
       }),
     ],
     entry: "./src/js/index.js",

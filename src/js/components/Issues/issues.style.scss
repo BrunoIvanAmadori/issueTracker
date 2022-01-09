@@ -35,7 +35,13 @@
   }
 
   &__title {
-    margin-bottom: 1em;
+    & a {
+      margin-bottom: 1em;
+      font-weight:300;
+      text-decoration: none;
+    }
+
+
   }
 
   &__error {

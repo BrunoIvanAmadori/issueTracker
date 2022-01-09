@@ -6,7 +6,7 @@
 
 body {
   margin-top: 1em;
-  background-color: #f6f8fa;
+  background-color: #eeeeee;
 }
 
 .card {
@@ -28,4 +28,7 @@ body {
 }
 a {
   color: #0969da;
+  &:hover {
+    text-decoration: underline !important;
+  }
 }
