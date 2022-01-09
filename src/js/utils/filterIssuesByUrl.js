@@ -5,8 +5,6 @@
  * @param {{Object}} views Templates in case there are no more issues left.
  */
 
-import { Home } from "../pages/Home";
-
 export function filterIssuesByUrl(issues, url) {
   const urlParams = new URLSearchParams(url);
 

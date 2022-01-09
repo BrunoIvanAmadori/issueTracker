@@ -2,7 +2,7 @@ import { Issue } from "../templates/Issue";
 import { Menu } from "../templates/Menu";
 import { Header } from "../templates/Header";
 import { IssueError } from "../templates/IssueError";
-import { CustomizeModal } from "../templates/CustomizeModal";
+import { CustomizeModal as $CustomizeModal } from "../templates/CustomizeModalTemplate";
 
 import { addListenerUrlChange, filterIssuesByUrl } from "../utils/filterIssuesByUrl";
 import { initCheckbox, updateCheckbox } from "../utils/initCheckbox";
@@ -17,7 +17,7 @@ import { countBusinessDays } from "../api/utils/countBusinessDays";
 import { getScore } from "../api/utils/getScore";
 import { sortAsc } from "../api/utils/sortAsc";
 import { updateScore } from "../api/utils/updateScore";
-
+import { CustomizeModal } from "../components/CustomizeModal";
 /**
  * The main class for the Homepage
  */
@@ -41,25 +41,9 @@ export class Home {
     store.dispatch({ type: "FILTER_ISSUES", payload: window.location.search });
     store.dispatch({ type: "CREATE_MEMBERS", payload: this.data.members });
 
-    console.log(store.getState());
-
-    // this.state.issues = this.data.issues;
-    // this.state.members = this.data.members;
-
-    // this.state = filterIssuesByUrl(this.state);
-    // updateScore(this.state);
-    // this.state = sortAsc(this.state, ["created_at", "score"]);
-
-    document.addEventListener("updateStateEvent", async (ev) => {
-      // this.state = ev.detail;
-      // updateScore(this.state);
-      // await this.renderHTML("issues");
-    });
-
     addListenerUrlChange(store);
 
-    await this.renderHTML(store);
-    store.subscribe(() => this.updateHTML(store.getState()));
+    await this.renderPage(store);
 
     this.injectFunctionality(store);
   }
@@ -73,48 +57,51 @@ export class Home {
     return { issues, members };
   }
 
-  async renderHTML(store) {
-    // we inject the data into the templates
-    const members = store.getState().members;
+  async renderPage(store) {
+    store.subscribe(() => this.renderIssues(store));
 
-    const header = Header();
-    const menu = await Menu(members);
-    const modal = await CustomizeModal(store);
+    await this.renderMenu(store);
+    const modalComponent = new CustomizeModal({ el: document.getElementById("modal"), store: store });
+    await this.renderModal(store);
+    this.renderIssues(store);
+    this.renderHeader();
+
     const error = await IssueError();
+  }
+
+  renderIssues(store) {
     const issues = store
       .getState()
       .filteredIssues.map((issue) => Issue(issue))
       .join(" ");
-
-    // we obtain the main placeholders for our content and render
-    const headerSection = null || document.getElementById("header");
     const contentSection = null || document.getElementById("content");
-    const menuSection = null || document.getElementById("menu");
-
-    headerSection.innerHTML = header;
-    menuSection.innerHTML = menu + modal;
     contentSection.innerHTML = issues;
   }
 
-  updateHTML(state) {
-    const issues = state.filteredIssues.map((issue) => Issue(issue)).join(" ");
+  async renderModal(store) {
+    // const modal = await CustomizeModal(store.getState().weightTable);
+    // const modalSection = null || document.getElementById("modal");
+    // modalSection.innerHTML = modal;
+  }
 
-    const contentSection = null || document.getElementById("content");
+  renderHeader() {
+    const header = Header();
+    const headerSection = null || document.getElementById("header");
+    headerSection.innerHTML = header;
+  }
 
-    contentSection.innerHTML = issues;
+  async renderMenu(store) {
+    const menu = await Menu(store.getState().members);
+    const menuSection = null || document.getElementById("menu");
+    menuSection.innerHTML = menu;
   }
 
   injectFunctionality(store) {
     const urlParams = new URLSearchParams(window.location.search);
     const checkboxElements = document.querySelectorAll(".memberFilter__checkbox");
 
-    initCheckbox(checkboxElements, urlParams);
-    initDropdownMenu();
-    initSaveChangesButton(store);
-  }
-
-  async setState(cb, elToRender) {
-    cb();
-    await this.renderHTML(elToRender);
+    // initCheckbox(checkboxElements, urlParams);
+    // initDropdownMenu();
+    // initSaveChangesButton(store);
   }
 }

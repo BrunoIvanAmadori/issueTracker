@@ -29,8 +29,11 @@ export function reducers(state, action) {
        * @returns updated state.
        */
 
+      // console.log(action.payload);
+
       const updatedIssues = () => {
         let scoredIssues = updateScore(state.issues, action.payload);
+        console.log("updated issues");
         return sortIssues(scoredIssues);
       };
 
@@ -41,6 +44,8 @@ export function reducers(state, action) {
        * We insert retrieved members in our state, check if there are more in our issues and, if not, add them.
        * @returns updated state.
        */
+
+      // console.log("created members");
 
       const createdMembers = () => {
         let membersRetrieved = action.payload;
@@ -62,12 +67,17 @@ export function reducers(state, action) {
        * @returns updated state.
        */
 
+      // console.log("default", defaultWeightTable);
+
       const resetedIssues = () => {
-        let scoredIssues = updateScore(state.issues, defaultWeightTable);
+        let scoredIssues = updateScore(state.issues, action.payload);
+
         return sortIssues(scoredIssues);
       };
 
-      return { ...state, weightTable: defaultWeightTable, filteredIssues: resetedIssues() };
+      console.log(state);
+
+      return { ...state, filteredIssues: resetedIssues() };
 
     default:
       return state;
