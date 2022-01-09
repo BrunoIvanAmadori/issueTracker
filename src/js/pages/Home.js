@@ -1,8 +1,8 @@
-import { Menu } from "../components/Menu/Menu";
-import { Header } from "../components/Header/Header";
-import { CustomizeModal } from "../components/CustomizeModal/CustomizeModal";
-import { Issues } from "../components/Issues/Issues";
-import { IssuesError } from "../components/IssuesError/IssuesError";
+import { MenuComponent } from "../components/Menu/Menu.component";
+import { HeaderComponent } from "../components/Header/Header.component";
+import { CustomizeModalComponent } from "../components/CustomizeModal/CustomizeModal.component";
+import { IssuesComponent } from "../components/Issues/Issues.component";
+import { IssuesErrorComponent } from "../components/IssuesError/IssuesError.component";
 
 import { config } from "../api/config";
 import { GitHubAPI } from "../api/GitHubAPI";
@@ -17,11 +17,9 @@ export class Home {
   }
 
   async init(store) {
-    // Then, we map the data to props
-
-    // First we fetch
     this.data = await this.getData();
 
+    // We prepare the data for view shooting the following events
     store.dispatch({ type: "CREATE_ISSUES", payload: this.data.issues });
     store.dispatch({ type: "FILTER_ISSUES", payload: window.location.search });
     store.dispatch({ type: "CREATE_MEMBERS", payload: this.data.members });
@@ -31,8 +29,12 @@ export class Home {
     await this.render(store);
   }
 
+  /**
+   * This function fetches the issues and members data from GitHUb
+   * @returns Object with issues and members
+   */
+
   async getData() {
-    // we fetch the issues and members data from GitHUb
     const API = new GitHubAPI(config);
     const issues = await API.IssuesController.getAllIssues();
     const members = await API.MembersController.getAllMembers();
@@ -40,12 +42,17 @@ export class Home {
     return { issues, members };
   }
 
+  /**
+   * This function initializes all the components, all with their own render logics
+   * @param {Object} store
+   */
+
   async render(store) {
-    new Header({ el: null || document.getElementById("header") });
-    new Menu({ el: null || document.getElementById("menu"), store });
-    new CustomizeModal({ el: null || document.getElementById("modal"), store });
-    new Issues({ el: null || document.getElementById("content"), store });
-    new IssuesError({ el: null || document.getElementById("content"), store });
+    new HeaderComponent({ el: null || document.getElementById("header") });
+    new MenuComponent({ el: null || document.getElementById("menu"), store });
+    new CustomizeModalComponent({ el: null || document.getElementById("modal"), store });
+    new IssuesComponent({ el: null || document.getElementById("content"), store });
+    new IssuesErrorComponent({ el: null || document.getElementById("content"), store });
   }
 
   /**

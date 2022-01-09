@@ -1,6 +1,6 @@
-import { HeaderTemplate } from "./HeaderTemplate";
+import HeaderTemplate from "./Header.template.njk";
 
-export class Header {
+export class HeaderComponent {
   constructor(options) {
     this.$el = options.el;
 

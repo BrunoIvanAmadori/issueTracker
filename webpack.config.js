@@ -29,6 +29,25 @@ module.exports = (env) => {
     module: {
       rules: [
         {
+          test: /\.njk$/,
+          use: [
+            {
+              loader: "simple-nunjucks-loader",
+              options: {
+                assetsPaths: ["./src/img"],
+              },
+            },
+          ],
+        },
+        {
+          test: /\.png$/,
+          use: [
+            {
+              loader: "file-loader",
+            },
+          ],
+        },
+        {
           test: /\.html$/i,
           loader: "html-loader",
         },
@@ -36,10 +55,7 @@ module.exports = (env) => {
           test: /\.css$/i,
           use: [MiniCssExtractPlugin.loader, "css-loader"],
         },
-        {
-          test: /\.(png|svg|jpg|jpeg|gif)$/i,
-          type: "asset/resource",
-        },
+
         {
           test: /\.s[ac]ss$/i,
           use: [

@@ -1,7 +1,7 @@
-import { CustomizeModalTemplate } from "./CustomizeModalTemplate";
 import { defaultWeightTable } from "../../utils/defaultWeightTable";
+import CustomizeModalTemplate from "./CustomizeModal.template.njk";
 
-export class CustomizeModal {
+export class CustomizeModalComponent {
   constructor(options) {
     this.$el = options.el;
     this.store = options.store;
@@ -12,15 +12,29 @@ export class CustomizeModal {
   }
 
   async render() {
-    this.$el.innerHTML = await CustomizeModalTemplate(this.store.getState().weightTable);
+    this.$el.innerHTML = CustomizeModalTemplate({ data: this.store.getState().weightTable });
     this.initComponent();
   }
 
   initComponent() {
-    const alertSuccess = this.$el.querySelector("#successCustomize");
+    this.addSaveButtonListener();
+    this.addResetButtonListener();
+    this.addDismissAlertButtonListener();
+    this.addCloseButtonListener();
+  }
+
+  addCloseButtonListener() {
+    const closeButton = this.$el.querySelector("#closeModalButton");
+
+    closeButton.addEventListener("click", (ev) => {
+      this.setFormTo(this.store.getState().weightTable);
+    });
+  }
+
+  addSaveButtonListener() {
     const saveChangesButton = this.$el.querySelector("[data-action='save-changes']");
-    const resetToDefaultButton = this.$el.querySelector("[data-action='reset-to-default']");
-    const dismissAlert = this.$el.querySelector("[data-action='close-alert'");
+    const modal = this.$el.querySelector("#customize-modal");
+    const closeButton = this.$el.querySelector("#closeModalButton");
 
     saveChangesButton.addEventListener("click", async (ev) => {
       let newWeightTable = this.getWeightTableFromForm();
@@ -28,25 +42,39 @@ export class CustomizeModal {
 
       window.clearTimeout(this.timeout);
       this.showAlert("Done! Weights updated!");
+      closeButton.click();
     });
+  }
+
+  addResetButtonListener() {
+    const resetToDefaultButton = this.$el.querySelector("[data-action='reset-to-default']");
 
     resetToDefaultButton.addEventListener("click", async (ev) => {
-      this.postWeightTableToForm();
-      this.store.dispatch({ type: "RESET_WEIGHT_TABLE", payload: this.defaultWeightTable });
-      window.clearTimeout(this.timeout);
-      this.showAlert("Done! Weights reseted to default values!");
+      this.setFormTo(this.defaultWeightTable);
+      // this.store.dispatch({ type: "RESET_WEIGHT_TABLE", payload: this.defaultWeightTable });
+      // window.clearTimeout(this.timeout);
+      // this.showAlert("Done! Weights reseted to default values!");
     });
+  }
+
+  addDismissAlertButtonListener() {
+    const alertSuccess = this.$el.querySelector("#successCustomize");
+    const dismissAlert = this.$el.querySelector("[data-action='close-alert'");
 
     dismissAlert.addEventListener("click", async (ev) => {
       alertSuccess.classList.remove("show");
     });
   }
 
+  /**
+   * Copies the weightTableFromState to a weightTableFromForm updating the values of the form
+   * @returns An array based on the form of the modal
+   */
+
   getWeightTableFromForm() {
     let weightTableFromForm = [];
     let weightTableFromState = this.store.getState().weightTable;
 
-    // We copy the weightTableFromState to a weightTableFromForm updating the values of the form
     for (let i = 0; i < weightTableFromState.length; i++) {
       weightTableFromForm[i] = weightTableFromState[i];
       weightTableFromForm[i].name = weightTableFromState[i].name;
@@ -55,8 +83,12 @@ export class CustomizeModal {
     return weightTableFromForm;
   }
 
-  postWeightTableToForm() {
-    let weightTable = this.defaultWeightTable;
+  /**
+   * Sets the form to default values based on the default weight table.
+   */
+
+  setFormTo(selectedWeightTable) {
+    let weightTable = selectedWeightTable;
 
     for (let i = 0; i < weightTable.length; i++) {
       document.getElementById(weightTable[i].name).value = weightTable[i].value;

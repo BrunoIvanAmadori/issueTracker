@@ -9,6 +9,11 @@ export function configureStore() {
     weightTable: defaultWeightTable(),
   };
 
+  /**
+   * This function detects if there is a state saved on sessionStorage and loads it
+   * @returns 
+   */
+
   function getInitialState() {
     if (sessionStorage.getItem("State")) {
       return JSON.parse(sessionStorage.getItem("State"));

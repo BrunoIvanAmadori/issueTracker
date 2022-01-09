@@ -1,6 +1,12 @@
 import { countBusinessDays } from "./countBusinessDays";
 import { getScore } from "./getScore";
 
+/**
+ * Function that updates the scores to an array of issues
+ * @param {*} issues 
+ * @param {*} weightTable 
+ * @returns 
+ */
 export function updateScore(issues, weightTable) {
   const today = new Date();
 

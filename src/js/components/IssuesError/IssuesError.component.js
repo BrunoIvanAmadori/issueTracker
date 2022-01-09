@@ -1,8 +1,7 @@
-import { IssueTemplate } from "../Issues/IssuesTemplate";
-import { IssueErrorTemplate } from "./IssueErrorTemplate";
+import IssueErrorTemplate from "./IssueError.template.njk";
 import { linkTo } from "../../utils/linkTo";
 
-export class IssuesError {
+export class IssuesErrorComponent {
   constructor(options) {
     this.$el = options.el;
     this.store = options.store;

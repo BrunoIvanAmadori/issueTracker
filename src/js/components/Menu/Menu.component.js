@@ -1,7 +1,7 @@
-import { MenuTemplate } from "./MenuTemplate";
+import MenuTemplate from "./Menu.template.njk";
 import { linkTo } from "../../utils/linkTo";
 
-export class Menu {
+export class MenuComponent {
   constructor(options) {
     this.$el = options.el;
     this.store = options.store;
@@ -10,7 +10,7 @@ export class Menu {
   }
 
   async render() {
-    this.$el.innerHTML = await MenuTemplate(this.store.getState().members);
+    this.$el.innerHTML = MenuTemplate({ members: this.store.getState().members });
     this.initComponent();
   }
 

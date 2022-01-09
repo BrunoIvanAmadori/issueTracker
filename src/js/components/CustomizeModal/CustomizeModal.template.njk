@@ -1,6 +1,4 @@
-export const CustomizeModalTemplate = (data) => {
-  const view = `
-    <!-- Modal -->
+
     <div class="modal fade" id="customize-modal" tabindex="-1" aria-labelledby="customize-modal" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -10,20 +8,17 @@ export const CustomizeModalTemplate = (data) => {
           </div>
           <div class="modal-body">
             <form id="customize-form">
-              ${data
-                .map(
-                  (item) => `
-              <label for="${item.name}" class="form-label">${item.name}</label>
-              <input type="text" value="${item.value}" class="form-control" id="${item.name}" name="${item.name}" aria-describedby="emailHelp">`
-                )
-                .join(" ")}
+            {% for item in data %}
+              <label for= "{{item.name}}" class="form-label">{{item.name}}</label>
+              <input data-entry="number" type="number" value="{{item.value}}" class="form-control" id="{{item.name}}" name="{{item.name}}">
+              {% endfor %}  
             </form>
           </div>
           <div class="modal-footer">
             <button data-action="reset-to-default" type="button" class="btn btn-outline-danger">Reset to default</button>
             <div>
             <button data-action="save-changes" type="button" class="btn btn-primary">Save changes</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Close</button>
+            <button id="closeModalButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Close</button>
 
             </div>
             
@@ -46,7 +41,3 @@ export const CustomizeModalTemplate = (data) => {
 
       <button data-action="close-alert" type="button" class="btn-close"></button>
     </div>
-    `;
-
-  return view;
-};
