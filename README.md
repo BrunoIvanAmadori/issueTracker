@@ -24,7 +24,7 @@ https://brunoamadori.com/issuesTracker
 `git clone https://github.com/BrunoIvanAmadori/IssueTracker.git`
 
 #### 2. **Install**
-
+`cd IssueTracker`
 `npm i`
 
 #### 3. **Get token**
@@ -33,7 +33,7 @@ Create a github Personal Access Token on: https://github.com/settings/tokens
 
 Copy it, and paste it like this on your console:
 
-`echo "TOKEN:<Insert Token here>" > .env`
+`echo "TOKEN=<Insert Token here>" > .env`
 
 #### 4. **Set DEV Server (optional)**
 

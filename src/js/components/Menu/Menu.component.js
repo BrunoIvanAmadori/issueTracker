@@ -45,7 +45,7 @@ export class MenuComponent {
             }
           });
         } else {
-          linkTo("/");
+          linkTo("./");
         }
       });
     }

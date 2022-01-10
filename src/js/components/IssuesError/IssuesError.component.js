@@ -21,8 +21,11 @@ export class IssuesErrorComponent {
       this.issues = IssueErrorTemplate();
       this.$el.innerHTML = this.issues;
       fadeIn(this.$el);
+
       this.$el.querySelector("[data-action='remove-filters']").addEventListener("click", (ev) => {
-        linkTo("/");
+        const checkboxElements = document.querySelectorAll(".memberFilter__checkbox");
+        Array.from(checkboxElements).map((cb) => (cb.checked = false));
+        linkTo("./");
       });
     }
   }
