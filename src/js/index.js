@@ -14,7 +14,7 @@ const config = {
   org: "rotundasoftware",
 };
 
-console.log(process.env.TOKEN);
+console.log("token", process.env.TOKEN);
 
 window.addEventListener("load", async () => {
   await new Home(store, config);
