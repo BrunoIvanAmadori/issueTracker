@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:local": "dotenv cross-var -- npx webpack --mode production --env TOKEN=$TOKEN",
-    "build:gh-pages": "npx webpack --mode production --env TOKEN=${{ env.TOKEN }}",
     "serve": "npx webpack serve --mode development"
   },
   "repository": {
