@@ -44,4 +44,4 @@ You can develop via webpack-dev-server
 #### 5. **Build**
 
 You can build your project
-`npm run build:prod`
+`npm run build:local`
