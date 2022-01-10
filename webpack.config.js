@@ -4,7 +4,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { DefinePlugin } = require("webpack");
 
 module.exports = (env) => {
-  console.log("env: ", env);
   return {
     devServer: {
       static: {
